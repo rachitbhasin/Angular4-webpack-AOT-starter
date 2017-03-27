@@ -51,6 +51,7 @@ A challenge password []:
 $ openssl x509 -req -sha256 -days 365 -in server.csr -signkey server.key -out server.crt
 ```
 
+Executing `npm run server` will serve the app from the **./dist** folder over http/2.
 
 NPM Commands
 ------------
