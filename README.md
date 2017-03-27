@@ -60,6 +60,6 @@ NPM Commands
 |npm start|Start the webpack development server @ **localhost:3000**|
 |npm run build|Perform AoT compilation; bunde and minify to **./dist** folder|
 |npm run clean|Delete **./dist** & **./build** folders|
-|npm run server|Serve the production artifacts from **./dist** folder @ **https://localhost:3000**|
+|npm run server|Serve the production artifacts from **./dist** folder @ https:localhost:3000|
 |npm run clean:build|Run in serial **npm run clean** and **npm run build**|
 |npm run cbs|Run in serial **npm run clean**, **npm run build** and **npm run server**|
