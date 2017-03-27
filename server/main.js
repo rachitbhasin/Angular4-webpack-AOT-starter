@@ -1,6 +1,9 @@
 const compression = require('compression');
 const express = require('express');
+const spdy = require('spdy')
 const logger = require('winston');
+const fs = require('fs')
+const path = require('path');
 
 
 //=========================================================
@@ -13,6 +16,11 @@ const ROOT_DIR = process.cwd();
 const DIST_DIR = `${ROOT_DIR}/dist`;
 
 const app = express();
+
+const options = {
+    key: fs.readFileSync(path.resolve('server/certs') + '/server.key'),
+    cert:  fs.readFileSync(path.resolve('server/certs') + '/server.crt')
+}
 
 // gzip compression
 app.use(compression());
@@ -39,9 +47,12 @@ app.use(router);
 //=========================================================
 //  START SERVER
 //---------------------------------------------------------
-app.listen(PORT, HOST, error => {
+spdy
+  .createServer(options, app)
+  .listen(PORT, HOST, error => {
   if (error) {
     logger.error(error);
+    return process.exit(1)
   }
   else {
     logger.info(`Server listening @ ${HOST}:${PORT}`);
