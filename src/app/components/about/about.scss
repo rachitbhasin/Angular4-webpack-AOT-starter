@@ -1,11 +1,22 @@
-$translate-amount: 10px;
+$translate-amount: 100px;
 $rotate-amount: 10deg;
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes moveAbout {
+    50% {-webkit-transform: rotate($rotate-amount);}
+}
+
+/* Standard syntax */
+@keyframes moveAbout {
+    50% {-webkit-transform: rotate($rotate-amount);}
+}
 
 .foo {
     display: flex;
-    transform: rotate($rotate-amount);
     transform-origin: 0 0;
     color: #fff;
     background: #00c;
     justify-content: center;
+    -webkit-animation: moveAbout 5s ease-in-out; /* Chrome, Safari, Opera */
+    animation: moveAbout 2s ease-in-out;
 }

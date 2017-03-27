@@ -1,11 +1,23 @@
-$translate-amount: 10px;
-$rotate-amount: 15deg;
+$translate-amount: 100px;
+$skew-x: 0deg;
+$skew-y: 360deg;
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes moveContacts {
+    0% {-webkit-transform: skew($skew-x,$skew-y);-webkit-transform-origin: center center;}
+}
+
+/* Standard syntax */
+@keyframes moveContacts {
+     0% {transform: skew($skew-x,$skew-y); transform-origin: center center;}
+}
 
 .foo {
     display: flex;
-    transform: rotate($rotate-amount);
     transform-origin: 0 0;
     color: #fff;
-    background: #cc0;
+    background: #cC0;
     justify-content: center;
+    -webkit-animation: moveContacts 5s ease-in-out; /* Chrome, Safari, Opera */
+    animation: moveContacts 2s ease-in-out;
 }

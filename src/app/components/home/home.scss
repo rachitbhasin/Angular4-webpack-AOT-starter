@@ -2,10 +2,10 @@ $translate-amount: 10px;
 $rotate-amount: 0deg;
 
 .foo {
-  display: flex;
-  transform: rotate($rotate-amount);
-  transform-origin: 0 0;
-  color: #fff;
-  background: #c00;
-  justify-content: center;
+    display: flex;
+    transform-origin: 0 0;
+    color: #fff;
+    background: #c00;
+    justify-content: center;
+    transform: rotate($rotate-amount)
 }
