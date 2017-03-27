@@ -1,4 +1,4 @@
-# Angular Ahead-of-Time (AoT) Compilation
+# Angular 4 Ahead-of-Time (AoT) Compilation
 
 A minimal example using the Angular compiler cli to pre-compile component templates.
 
@@ -11,7 +11,6 @@ build/           // contains results of AoT compilation
 dist/            // contains final minified production artifacts
 src/
  |__app/
- |__home/
  |__index.html
  |__main.aot.ts  // entry point for production (AoT) builds
  |__main.jit.ts  // entry point for development (JiT) builds
