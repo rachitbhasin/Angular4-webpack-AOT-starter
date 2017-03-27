@@ -46,7 +46,7 @@
     "@types/node": "^6.0.58",
     "angular2-template-loader": "^0.6.0",
     "autoprefixer": "~6.6.1",
-    "awesome-typescript-loader": "3.0.0-beta.17",
+    "awesome-typescript-loader": "^3.1.2",
     "compression": "~1.6.2",
     "cross-env": "~3.1.4",
     "del-cli": "~0.2.1",
