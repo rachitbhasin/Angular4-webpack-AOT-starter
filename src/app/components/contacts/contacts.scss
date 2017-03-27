@@ -1,0 +1,11 @@
+$translate-amount: 10px;
+$rotate-amount: 15deg;
+
+.foo {
+    display: flex;
+    transform: rotate($rotate-amount);
+    transform-origin: 0 0;
+    color: #fff;
+    background: #cc0;
+    justify-content: center;
+}

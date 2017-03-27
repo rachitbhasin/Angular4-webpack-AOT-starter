@@ -1,0 +1,71 @@
+{
+  "name": "Angular4-webpack-AOT-starter",
+  "version": "0.0.1",
+  "description": "Angular4 Ahead-of-Time (AoT) Compilation",
+  "homepage": "https://github.com/rachitbhasin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rachitbhasin/Angular4-webpack-AOT-starter.git"
+  },
+  "author": {
+    "name": "Rachit Bhasin",
+    "email": "rachitbhasin1@gmail.com"
+  },
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": ">=6.4"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=development webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cross-env NODE_ENV=production webpack --display-chunks",
+    "clean": "del-cli build dist",
+    "server": "cross-env NODE_ENV=development nodemon -w 'server/**/*.*' server/main.js",
+    "clean:build": "npm-run-all --serial clean build",
+    "cbs": "npm-run-all --serial clean build server"
+  },
+  "dependencies": {
+    "@angular/animations": "^4.0.0",
+    "@angular/common": "^4.0.0",
+    "@angular/compiler": "^4.0.0",
+    "@angular/compiler-cli": "^4.0.0",
+    "@angular/core": "^4.0.0",
+    "@angular/forms": "^4.0.0",
+    "@angular/http": "^4.0.0",
+    "@angular/platform-browser": "^4.0.0",
+    "@angular/platform-browser-dynamic": "^4.0.0",
+    "@angular/platform-server": "^4.0.0",
+    "@angular/router": "^4.0.0",
+    "core-js": "^2.4.1",
+    "rxjs": "^5.2.0",
+    "typescript": "^2.2.1",
+    "zone.js": "^0.8.5"
+  },
+  "devDependencies": {
+    "@types/node": "^6.0.58",
+    "angular2-template-loader": "^0.6.0",
+    "autoprefixer": "~6.6.1",
+    "awesome-typescript-loader": "3.0.0-beta.17",
+    "compression": "~1.6.2",
+    "cross-env": "~3.1.4",
+    "del-cli": "~0.2.1",
+    "express": "~4.14.0",
+    "html-loader": "^0.4.4",
+    "html-webpack-plugin": "~2.26.0",
+    "morgan": "~1.7.0",
+    "ngc-webpack": "^1.2.0",
+    "node-sass": "~4.1.1",
+    "nodemon": "~1.11.0",
+    "npm-run-all": "~4.0.0",
+    "postcss-loader": "~1.2.1",
+    "raw-loader": "~0.5.1",
+    "sass-loader": "~4.1.1",
+    "ts-helpers": "^1.1.2",
+    "typescript": "^2.0.10",
+    "webpack": "2.2.0-rc.3",
+    "webpack-dev-server": "2.2.0-rc.0",
+    "webpack-md5-hash": "~0.0.5",
+    "winston": "~2.3.0"
+  }
+}
