@@ -23,6 +23,7 @@
     "clean": "del-cli build dist",
     "server": "cross-env NODE_ENV=development nodemon -w 'server/**/*.*' server/main.js",
     "clean:build": "npm-run-all --serial clean build",
+    "build:cert": "node ./server/certs/createCertificates.js",
     "cbs": "npm-run-all --serial clean build server"
   },
   "dependencies": {
