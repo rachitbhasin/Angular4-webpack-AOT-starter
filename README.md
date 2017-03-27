@@ -8,6 +8,8 @@ Files & Directories
 ```
 build/           // contains results of AoT compilation
 dist/            // contains final minified production artifacts
+server/          // contains configuration files for express/spdy server
+ |__ certs       // contains self-signed SSL certificates for https
 src/
  |__app/
  |__index.html
