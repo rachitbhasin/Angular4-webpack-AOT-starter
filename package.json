@@ -63,8 +63,8 @@
     "sass-loader": "~4.1.1",
     "ts-helpers": "^1.1.2",
     "typescript": "^2.0.10",
-    "webpack": "2.2.0-rc.3",
-    "webpack-dev-server": "2.2.0-rc.0",
+    "webpack": "^2.3.2",
+    "webpack-dev-server": "^2.4.2",
     "webpack-md5-hash": "~0.0.5",
     "winston": "~2.3.0"
   }
