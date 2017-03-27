@@ -10,6 +10,7 @@ build/           // contains results of AoT compilation
 dist/            // contains final minified production artifacts
 server/          // contains configuration files for express/spdy server
  |__ certs       // contains self-signed SSL certificates for https
+ main.js
 src/
  |__app/
  |__index.html
