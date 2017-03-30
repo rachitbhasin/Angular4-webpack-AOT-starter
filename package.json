@@ -21,10 +21,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cross-env NODE_ENV=production webpack --display-chunks",
     "clean": "del-cli build dist",
-    "server": "cross-env NODE_ENV=development nodemon -w 'server/**/*.*' server/main.js",
+    "server2": "cross-env NODE_ENV=http2 nodemon -w 'server/**/*.*' server/main.js",
+    "server1": "cross-env NODE_ENV=http1 nodemon -w 'server/**/*.*' server/main.js",
     "clean:build": "npm-run-all --serial clean build",
     "build:cert": "node ./server/certs/createCertificates.js",
-    "cbs": "npm-run-all --serial clean build server"
+    "cbs2": "npm-run-all --serial clean build server2",
+    "cbs1": "npm-run-all --serial clean build server1"
   },
   "dependencies": {
     "@angular/animations": "^4.0.0",

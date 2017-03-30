@@ -15,12 +15,9 @@ const PORT = 3000;
 const ROOT_DIR = process.cwd();
 const DIST_DIR = `${ROOT_DIR}/dist`;
 
-const app = express();
+const NODE_ENV = process.env.NODE_ENV;
 
-const options = {
-    key: fs.readFileSync(path.resolve('server/certs') + '/server.key'),
-    cert:  fs.readFileSync(path.resolve('server/certs') + '/server.crt')
-}
+const app = express();
 
 // gzip compression
 app.use(compression());
@@ -45,16 +42,38 @@ app.use(router);
 
 
 //=========================================================
-//  START SERVER
+//  START HTTP2 SERVER
 //---------------------------------------------------------
-spdy
-  .createServer(options, app)
-  .listen(PORT, HOST, error => {
-  if (error) {
-    logger.error(error);
-    return process.exit(1)
+if(NODE_ENV === 'http2'){
+  const options = {
+    key: fs.readFileSync(path.resolve('server/certs') + '/server.key'),
+    cert:  fs.readFileSync(path.resolve('server/certs') + '/server.crt')
   }
-  else {
-    logger.info(`Server listening @ ${HOST}:${PORT}`);
-  }
-});
+
+  spdy
+    .createServer(options, app)
+    .listen(PORT, HOST, error => {
+    if (error) {
+      logger.error(error);
+      return process.exit(1)
+    }
+    else {
+      logger.info(`Server listening @ https://${HOST}:${PORT}`);
+    }
+  });
+}
+//=========================================================
+//  START HTTP1.1 SERVER
+//---------------------------------------------------------
+else{
+  app.listen(PORT, HOST, error => {
+    if (error) {
+      logger.error(error);
+      return process.exit(1)
+    }
+    else {
+      logger.info(`Server listening @ ${HOST}:${PORT}`);
+    }
+  });
+}
+
