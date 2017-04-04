@@ -47,6 +47,10 @@ const rules = {
   'typescript': {
     test: /\.ts$/,
     use: ['awesome-typescript-loader', 'angular2-template-loader']
+  },
+  'images' : {
+      test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
+      use: ['file-loader?name=[name].[ext]']  // <-- retain original file name
   }
 };
 
@@ -72,7 +76,8 @@ config.module = {
   rules: [
     rules.sass,
     rules.typescript,
-    rules.html
+    rules.html,
+    rules.images
   ]
 };
 

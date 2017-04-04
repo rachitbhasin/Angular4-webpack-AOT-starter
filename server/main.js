@@ -34,55 +34,78 @@ app.use(express.static(DIST_DIR, {index: false}));
 //---------------------------------------------------------
 const router = new express.Router();
 
-let files = []
+let indexFile = '';
+let files = {}
+let urlName = 'index.html';
 if(NODE_ENV === 'http2'){
+  // Read dist folder and get the list of files
   fs.readdir(`${DIST_DIR}`, (error, data)=>{
+    // Loop over the list of files
     data.forEach(name=>{
-        if(`${name}` != 'index.html') files.push(`${name}`);
+        // Ignore if file is index.html
+        if(`${name}` != 'index.html'){
+          let fileToPushPath = path.join(`${DIST_DIR}`, `${name}`)
+          // Read the file that needs to be pushed
+          fs.readFile(fileToPushPath, (error, data)=>{
+            try{
+              // Push the contents of the file to files array
+              files[`${name}`] = data;
+            }catch(error){
+              logger.error(error);
+            }
+          })    
+        } 
     })
-    console.log(files);
+  })
+
+  fs.readFile(path.join(`${DIST_DIR}`, urlName), (error, data)=>{
+    if(error){
+      logger.error(error)
+      return;
+    }
+    indexFile = data;
   })
 }
 
 router.all('*', (req, res) => {
+  // Only perform server push if NODE_ENV is http2
   if(NODE_ENV === 'http2'){
-    let urlName = 'index.html';
-      console.log("Index file")
-        let assets = files.filter(name=>(name.substr(0,4)!='http'))
-        .map((fileToPush)=>{
-        let fileToPushPath = path.join(`${DIST_DIR}`, fileToPush)
-        console.log("File to push: " + fileToPushPath);
+        //Create a list of assests to be pushed
+        let assets = Object.keys(files)
+                        .map((fileToPush)=>{
+        logger.info("File to push: " + fileToPush);
+        //Return a function that calls itself recursively 
         return (cb)=>{
-          fs.readFile(fileToPushPath, (error, data)=>{
-            if (error) return cb(error)
-            console.log('Will push: ', fileToPush, fileToPushPath)
+            logger.info('Will push: ', fileToPush)
             try {
-              res.push(`/${fileToPush}`, {}).end(data)
+              // Push file to response stream
+              res.push(`/${fileToPush}`, {}).end(files[fileToPush])
               cb()
             } catch(e) {
               cb(e)
             }
-          })
         }
       })
       
+      // Append the function to left of the assets array.
       assets.unshift((cb)=>{
-        fs.readFile(path.join(`${DIST_DIR}`, urlName), (error, data)=>{
-          if (error) return cb(error)
-          res.write(data)
-          cb()
-        })
+          // Write index.html to response
+          res.write(indexFile);
+          // start recursion
+          cb();
       })
 
+      // Execute assets array in parallel and end response. 
       require('neo-async').parallel(assets, (results)=>{
         res.end()
       })
     
   }else{
+    // If NODE_ENV is not equal to http2 send index.html to browser
     res.sendFile(`${DIST_DIR}/index.html`);
   }
-  //res.sendFile(`${DIST_DIR}/index.html`);
 });
+
 
 app.use(router);
 
