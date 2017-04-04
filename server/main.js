@@ -1,10 +1,10 @@
 const compression = require('compression');
 const express = require('express');
-const spdy = require('spdy')
+const spdy = require('spdy');
 const logger = require('winston');
-const fs = require('fs')
+const fs = require('fs');
 const path = require('path');
-
+const url = require('url');
 
 //=========================================================
 //  SETUP
@@ -34,8 +34,54 @@ app.use(express.static(DIST_DIR, {index: false}));
 //---------------------------------------------------------
 const router = new express.Router();
 
+let files = []
+if(NODE_ENV === 'http2'){
+  fs.readdir(`${DIST_DIR}`, (error, data)=>{
+    data.forEach(name=>{
+        if(`${name}` != 'index.html') files.push(`${name}`);
+    })
+    console.log(files);
+  })
+}
+
 router.all('*', (req, res) => {
-  res.sendFile(`${DIST_DIR}/index.html`);
+  if(NODE_ENV === 'http2'){
+    let urlName = 'index.html';
+      console.log("Index file")
+        let assets = files.filter(name=>(name.substr(0,4)!='http'))
+        .map((fileToPush)=>{
+        let fileToPushPath = path.join(`${DIST_DIR}`, fileToPush)
+        console.log("File to push: " + fileToPushPath);
+        return (cb)=>{
+          fs.readFile(fileToPushPath, (error, data)=>{
+            if (error) return cb(error)
+            console.log('Will push: ', fileToPush, fileToPushPath)
+            try {
+              res.push(`/${fileToPush}`, {}).end(data)
+              cb()
+            } catch(e) {
+              cb(e)
+            }
+          })
+        }
+      })
+      
+      assets.unshift((cb)=>{
+        fs.readFile(path.join(`${DIST_DIR}`, urlName), (error, data)=>{
+          if (error) return cb(error)
+          res.write(data)
+          cb()
+        })
+      })
+
+      require('neo-async').parallel(assets, (results)=>{
+        res.end()
+      })
+    
+  }else{
+    res.sendFile(`${DIST_DIR}/index.html`);
+  }
+  //res.sendFile(`${DIST_DIR}/index.html`);
 });
 
 app.use(router);
@@ -45,6 +91,7 @@ app.use(router);
 //  START HTTP2 SERVER
 //---------------------------------------------------------
 if(NODE_ENV === 'http2'){
+  
   const options = {
     key: fs.readFileSync(path.resolve('server/certs') + '/server.key'),
     cert:  fs.readFileSync(path.resolve('server/certs') + '/server.crt')

@@ -32,7 +32,7 @@ Executing `npm run build` will:
 Serving Production Artifacts
 ----------------------------
 
-The AOT build is served using express and spdy(http/2). 
+The AOT build is served using express and spdy(http/2) with server push to load bundle.js and polyfills.js. 
 This requires self-signed SSL certificate to be created as the application is served over https.
 
 1. Use the following commands to create a certificate.
@@ -64,8 +64,8 @@ NPM Commands
 |npm start|Start the webpack development server @ **localhost:3000**|
 |npm run build|Perform AoT compilation; bunde and minify to **./dist** folder|
 |npm run clean|Delete **./dist** & **./build** folders|
-|npm run server1|Serve the production artifacts from **./dist** folder using HTTP1.1 @ http://localhost:3000|
-|npm run server2|Serve the production artifacts from **./dist** folder using HTTP2 @ https://localhost:3000|
+|npm run server1|Serve the production artifacts from **./dist** folder using HTTP1.1 @ http://localhost:3000 |
+|npm run server2|Serve the production artifacts from **./dist** folder using HTTP2 @ https://localhost:3000 |
 |npm run clean:build|Run in serial **npm run clean** and **npm run build**|
 |npm run cbs1|Run in serial **npm run clean**, **npm run build** and **npm run server1**|
 |npm run cbs2|Run in serial **npm run clean**, **npm run build** and **npm run server2**|
