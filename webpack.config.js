@@ -13,7 +13,6 @@ const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-
 //=========================================================
 //  VARS
 //---------------------------------------------------------
@@ -23,9 +22,8 @@ const ENV_DEVELOPMENT = NODE_ENV === 'development';
 const ENV_PRODUCTION = NODE_ENV === 'production';
 const ENV_TEST = NODE_ENV === 'test';
 
-const HOST = '0.0.0.0';
+const HOST = 'localhost';
 const PORT = 3000;
-
 
 //=========================================================
 //  RULES
@@ -95,7 +93,7 @@ config.plugins = [
     }
   }),
   new ContextReplacementPlugin(
-    /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+    /angular(\\|\/)core(\\|\/)@angular/,
     path.resolve('src')
   ),
   new CheckerPlugin(),
@@ -103,7 +101,6 @@ config.plugins = [
             {from: 'src/favicon.ico'}
         ])
 ];
-
 
 //=====================================
 //  DEVELOPMENT or PRODUCTION
@@ -141,7 +138,6 @@ if (ENV_DEVELOPMENT || ENV_PRODUCTION) {
   );
 }
 
-
 //=====================================
 //  DEVELOPMENT
 //-------------------------------------
@@ -153,7 +149,9 @@ if (ENV_DEVELOPMENT) {
 
   config.output.filename = '[name].js';
 
-  config.plugins.push(new ProgressPlugin());
+  config.plugins.push(new ProgressPlugin((percentage, message)=>{
+    console.log(percentage.toFixed(2) * 100 + " => " + message);
+  }));
 
   config.devServer = {
     contentBase: './src',
@@ -173,7 +171,6 @@ if (ENV_DEVELOPMENT) {
     }
   };
 }
-
 
 //=====================================
 //  PRODUCTION
