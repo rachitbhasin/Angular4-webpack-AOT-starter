@@ -11,6 +11,7 @@ const NgcWebpackPlugin = require('ngc-webpack').NgcWebpackPlugin;
 const ProgressPlugin = require('webpack/lib/ProgressPlugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
 //=========================================================
@@ -97,7 +98,10 @@ config.plugins = [
     /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
     path.resolve('src')
   ),
-  new CheckerPlugin()
+  new CheckerPlugin(),
+  new CopyWebpackPlugin([
+            {from: 'src/favicon.ico'}
+        ])
 ];
 
 

@@ -2,6 +2,13 @@
 
 A minimal example using the Angular compiler cli to pre-compile component templates.
 
+Node version
+------------
+
+```
+6.x.x
+```
+
 Files & Directories
 -------------------
 

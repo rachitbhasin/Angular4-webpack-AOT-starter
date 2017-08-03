@@ -5,11 +5,12 @@ const logger = require('winston');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const opn = require('opn');
 
 //=========================================================
 //  SETUP
 //---------------------------------------------------------
-const HOST = '0.0.0.0';
+const HOST = 'localhost';
 const PORT = 3000;
 
 const ROOT_DIR = process.cwd();
@@ -35,7 +36,7 @@ app.use(express.static(DIST_DIR, {index: false}));
 const router = new express.Router();
 
 let indexFile = '';
-let files = {}
+let files = {};
 let urlName = 'index.html';
 if(NODE_ENV === 'http2'){
   // Read dist folder and get the list of files
@@ -129,6 +130,7 @@ if(NODE_ENV === 'http2'){
     }
     else {
       logger.info(`Server listening @ https://${HOST}:${PORT}`);
+      opn(`https://${HOST}:${PORT}`);
     }
   });
 }
@@ -143,6 +145,7 @@ else{
     }
     else {
       logger.info(`Server listening @ ${HOST}:${PORT}`);
+      opn(`http://${HOST}:${PORT}`);
     }
   });
 }
